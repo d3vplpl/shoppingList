@@ -24,21 +24,13 @@ public class Main : MonoBehaviour {
 	PanelSlot.transform.SetSiblingIndex(0);
 	
     }
-	void OnGUI() {
-		/*scrollPosition = Vector2.zero;
-		scrollPosition = GUI.BeginScrollView(new Rect(10, 0, 300, 500), scrollPosition, new Rect(0, 0, 220, 200));
-		GUI.Button(new Rect(0, -5, 100, 20), "Top-left");
-		GUI.Button(new Rect(120, 0, 100, 20), "Top-right");
-		GUI.Button(new Rect(0, 180, 100, 20), "Bottom-left");
-		GUI.Button(new Rect(120, 180, 100, 20), "Bottom-right");
-		GUI.EndScrollView();*/
-
-	}
 
 	public void AddNewListElement() {
 		ListElement li = new ListElement();
 		li.tekst = productName.text;
 		Lista.Add(li);
+		Vector3 panelPos = PanelSlot.transform.position;
+		Ycorrection =  panelPos.y +29f;
 		li.GO = Instantiate(GOSlot, new Vector2(-7f, Ycorrection - Lista.IndexOf(li)* HEIGHT_OF_LIST_ELEMENT),
 			Quaternion.identity) as GameObject;
 		li.GO.transform.SetParent(PanelSlot.transform);
@@ -47,7 +39,7 @@ public class Main : MonoBehaviour {
 
 		li.GO.GetComponent<TextMesh>().text = li.tekst;
         li.BtnRemove.GetComponent<TextMesh>().text = "X";     
-
+		li.BtnRemove.transform.SetParent(PanelSlot.transform);
 	}
     public void RemoveListElement(GameObject liGO) {
 		int removedIndex = 0;
