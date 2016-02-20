@@ -10,6 +10,7 @@ public class Main : MonoBehaviour {
     public GameObject BtnRemoveSlot;
     public GameObject InputSlot;
 	private  const float  HEIGHT_OF_LIST_ELEMENT = 1f; //temporary fixed size
+	private const int MAX_LIST_LENGTH = 100; //maximum number of product on list
 	public List<ListElement> Lista;
 	public GameObject PanelSlot;
 	public InputField productName;
@@ -18,16 +19,22 @@ public class Main : MonoBehaviour {
     void Start()
     {
 		Lista = new List<ListElement>();
+		FetchTheList();//it's important to fetch the list before creating product name. Logic depends on it.
 		productName = InputSlot.GetComponentInChildren<InputField>();
 
-	InputSlot.transform.SetSiblingIndex(1);
-	PanelSlot.transform.SetSiblingIndex(0);
+		InputSlot.transform.SetSiblingIndex(1);
+		PanelSlot.transform.SetSiblingIndex(0);
 	
     }
 
-	public void AddNewListElement() {
+	public void AddNewListElement(string tekstElementu) {
 		ListElement li = new ListElement();
-		li.tekst = productName.text;
+		//if (productName) {
+		//	li.tekst = productName.text; 
+		//}
+		//else {
+		li.tekst = tekstElementu;
+		//} //if productName doesn't exist it means we load from memory
 		Lista.Add(li);
 		Vector3 panelPos = PanelSlot.transform.position;
 		Ycorrection =  panelPos.y +29f;
@@ -63,7 +70,28 @@ public class Main : MonoBehaviour {
 			li.GO.transform.position = vYposGO;
 			li.BtnRemove.transform.position = vYposRmvBtn;
 		}
+		PersistTheList();
     }
+	public void PersistTheList () {
+		PlayerPrefs.DeleteAll();
+		foreach (ListElement li in Lista){
+			PlayerPrefs.SetString(Lista.IndexOf(li).ToString(),li.tekst);
+		}
+
+	}
+	public void FetchTheList () {
+		for (int i=0;i<=MAX_LIST_LENGTH;i++){
+			
+			try {
+				string tekstToAdd =(PlayerPrefs.GetString(i.ToString()));
+				if (tekstToAdd =="") break; //this means we can't let input blank product
+				AddNewListElement(tekstToAdd);
+			}
+			catch {
+				break;	
+			}
+		}
+	}
 
 	// Update is called once per frame
 	void Update () {

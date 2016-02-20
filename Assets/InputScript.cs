@@ -15,7 +15,5 @@ public class InputScript : MonoBehaviour {
 	void Update () {
 	
 	}
-	void OnEditEnd () {
-		other.AddNewListElement();
-	}
+
 }
