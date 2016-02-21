@@ -5,8 +5,8 @@ public class ListElement {
 
 	public GameObject GO;
 	public GameObject BtnRemove;
-    public bool isBought;
+    public int isBought = 0;
     public string tekst;
 	
-	
+
 }

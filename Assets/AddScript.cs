@@ -16,7 +16,7 @@ public class AddScript : MonoBehaviour {
 	}
 	void OnMouseDown(){
 		Debug.Log("Dodaj pressed");
-		other.AddNewListElement(other.productName.text);
+		if (other.productName.text!="")other.AddNewListElement(other.productName.text,0);
 		other.productName.text =""; //set product name input to blank after adding product
 		other.PersistTheList();
 	}

@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AddScript.cs" />
+     <Compile Include="Assets\BuyScript.cs" />
      <Compile Include="Assets\InputScript.cs" />
      <Compile Include="Assets\ListElement.cs" />
      <Compile Include="Assets\Main.cs" />
