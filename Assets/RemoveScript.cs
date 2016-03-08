@@ -5,6 +5,7 @@ public class RemoveScript : MonoBehaviour {
 
     GameObject MainGameObj;
     Main other;
+
     void Start()
     {
         MainGameObj = GameObject.Find("Main");
@@ -13,6 +14,11 @@ public class RemoveScript : MonoBehaviour {
     }
     void OnMouseDown() {
         Debug.Log("X pressed");
-        other.RemoveListElement(this.gameObject);
+		other.FetchTheListFromWeb();
+		other.RemoveListElement(this.gameObject);
+		other.PersistTheList();
+
+
         }
+
 }
