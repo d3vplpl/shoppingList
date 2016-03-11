@@ -19,9 +19,10 @@ public class Main : MonoBehaviour {
 	public InputField productName;
 	Vector2 scrollPosition;
 	private JSONObject jo;
-	const string url ="http://127.0.0.1:8000/shopping_list.json" ;	
-	const string deleteUrl = "http://127.0.0.1:8000/shopping_list/delete/";
-	const string urlGetByName ="http://127.0.0.1:8000/shopping_list/get/";
+	int enviromentIndex = 1;
+	 string [] url ={"http://127.0.0.1:8000/shopping_list.json","http://d3vpl.pythonanywhere.com/shopping_list.json"} ;	
+	 string [] deleteUrl ={ "http://127.0.0.1:8000/shopping_list/delete/","http://d3vpl.pythonanywhere.com/shopping_list/delete/"};
+	 string [] urlGetByName ={"http://127.0.0.1:8000/shopping_list/get/","http://d3vpl.pythonanywhere.com/shopping_list/get/"};
 		// Use this for initialization
   
 	void Start()
@@ -100,7 +101,7 @@ public class Main : MonoBehaviour {
 	}
 	public void PersistTheElementOnWeb(ListElement li){
 
-		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlGetByName+li.tekst);
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlGetByName[enviromentIndex]+li.tekst);
 		request.Method = "GET";
 
 		try {HttpWebResponse response = (HttpWebResponse)request.GetResponse();}
@@ -110,7 +111,7 @@ public class Main : MonoBehaviour {
 		if (response2.StatusCode == HttpStatusCode.NotFound) {
 			WWWForm wwwForm = new WWWForm();
 			wwwForm.AddField("item_name",li.tekst);
-			WWW www = new WWW(url,wwwForm);
+				WWW www = new WWW(url[enviromentIndex],wwwForm);
 		} else {
 			Debug.Log ("Duplicate element already exists on the server?"+ response2.StatusCode.ToString());
 		}
@@ -119,7 +120,7 @@ public class Main : MonoBehaviour {
 	}
 	public void DeleteTheElementOnWeb(ListElement li) {
 
-		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(deleteUrl+li.tekst);
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(deleteUrl[enviromentIndex]+li.tekst);
 		request.Method = "DELETE";
 		HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 		if (response.StatusCode == HttpStatusCode.NoContent) {
@@ -166,7 +167,7 @@ public class Main : MonoBehaviour {
 	}
 
 	void ConnectToServer() {
-		WWW www = new WWW(url);
+		WWW www = new WWW(url[enviromentIndex]);
 		StartCoroutine(WaitForRequest(www));
 		while (!www.isDone) {
 		}
